@@ -211,16 +211,12 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
 
-  run-migrations:
+  rrun-migrations:
     docker:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apt-get update
-            apt -y install awscli
+      - install_awscli
       - run:
           name: Run migrations
           command: |
