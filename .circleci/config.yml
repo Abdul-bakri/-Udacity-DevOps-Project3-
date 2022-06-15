@@ -1,5 +1,7 @@
 version: 2.1
-
+orbs:
+    slack: circleci/slack@4.4.4
+    
 commands:
   install_awscli:
     description: Install AWS CLI v2
@@ -137,8 +139,12 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --force --audit-level=critical
+            
             npm audit --audit-level=critical
+      - slack/notify:
+                  event: fail
+                    # mentions: "@here"
+                  template: basic_fail_1
   scan-backend:
     docker:
       - image: cimg/node:13.8.0
